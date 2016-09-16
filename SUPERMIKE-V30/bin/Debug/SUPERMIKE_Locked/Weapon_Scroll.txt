@@ -1,0 +1,231 @@
+---------------------- WEAPON DESIGN CHANGER --------------------------
+IF((@Operation = 41) AND (@ItemRefID BETWEEN 41921 AND 41965 OR @ItemRefID BETWEEN 42046 AND 42122)) /* ITEM USAGE*/
+BEGIN
+	--- Declare
+	DECLARE @TypeID3 int, @TypeID4 int, @NewTypeID4 int, @Success int = 0, @ItemID bigint, @Plus int;
+
+	--- Get ItemID
+	DECLARE @ID64 bigint = (SELECT TOP 1 ItemID FROM [SRO_VT_SHARD].[dbo].[_Inventory] where CharID = @CharID and Slot = 13);
+	
+	-- ItemID
+	--DECLARE @ItemID bigint = (SELECT TOP 1 RefItemID FROM [SRO_VT_SHARD].[dbo].[_Items] where ID64 = @ID64);
+	-- SELECT STUFF
+	SELECT DISTINCT TOP(1) @ItemID = a.RefItemID, @Plus = a.OptLevel
+	FROM [SRO_VT_SHARD].[dbo].[_Items] a WITH (NOLOCK)
+	where a.ID64 = @ID64;
+
+	--- Check
+	IF(@ID64 is not null AND @ID64 != 0 AND @ItemID is not null AND @ItemID != 0)
+	-- If not null or 0, go.
+	BEGIN
+		-- Code Name
+		DECLARE @CodeName128 varchar(max) = (SELECT CodeName128 FROM [SRO_VT_SHARD].[dbo].[_RefObjCommon] where Service = 1 and ID = @ItemID)
+		IF EXISTS(SELECT CodeName128 from [SRO_VT_LOG].[dbo].[_Scroll_items] where CodeName128 = @CodeName128 and Service = 1)
+		BEGIN
+			--- Value switch
+			DECLARE @Value bigint = CASE
+
+				--- BLADE CHINESE
+				WHEN(@ItemRefID = 41959) THEN 25670 -- EGYPT B BLADE
+				WHEN(@ItemRefID = 41921) THEN 41872
+				WHEN(@ItemRefID = 41922) THEN 41873
+				WHEN(@ItemRefID = 41923) THEN 41874
+				WHEN(@ItemRefID = 41924) THEN 41875
+				WHEN(@ItemRefID = 41925) THEN 41876
+				WHEN(@ItemRefID = 41926) THEN 41877
+				WHEN(@ItemRefID = 41927) THEN 41878
+
+				-- SHIELD CHINESE
+				WHEN(@ItemRefID = 41961) THEN 25674 -- EGYPT B SHIELD
+				WHEN(@ItemRefID = 41935) THEN 41888
+				WHEN(@ItemRefID = 41936) THEN 41889
+				WHEN(@ItemRefID = 41937) THEN 41890
+				WHEN(@ItemRefID = 41938) THEN 41891
+				WHEN(@ItemRefID = 41939) THEN 41892
+				WHEN(@ItemRefID = 41940) THEN 41895
+
+				-- SPEAR CHINESE
+				WHEN(@ItemRefID = 41962) THEN 25671 -- EGYPT B SPEAR
+				WHEN(@ItemRefID = 41941) THEN 41896
+				WHEN(@ItemRefID = 41942) THEN 41897
+				WHEN(@ItemRefID = 41943) THEN 41898
+				WHEN(@ItemRefID = 41944) THEN 41899
+				WHEN(@ItemRefID = 41945) THEN 41900
+				WHEN(@ItemRefID = 41946) THEN 41902
+				WHEN(@ItemRefID = 41947) THEN 41903
+
+				-- SWORD CHINESE
+				WHEN(@ItemRefID = 41963) THEN 25669 -- EGYPT B SWORD
+				WHEN(@ItemRefID = 41948) THEN 41904
+				WHEN(@ItemRefID = 41949) THEN 41905
+				WHEN(@ItemRefID = 41950) THEN 41906
+				WHEN(@ItemRefID = 41951) THEN 41907
+				WHEN(@ItemRefID = 41952) THEN 41911
+
+				-- TBLADE CHINESE
+				WHEN(@ItemRefID = 41964) THEN 25672 -- EGYPT B TBLADE
+				WHEN(@ItemRefID = 41953) THEN 41912
+				WHEN(@ItemRefID = 41954) THEN 41913
+				WHEN(@ItemRefID = 41955) THEN 41914
+				WHEN(@ItemRefID = 41956) THEN 41915
+				WHEN(@ItemRefID = 41957) THEN 41916
+				WHEN(@ItemRefID = 41958) THEN 41917
+				WHEN(@ItemRefID = 41965) THEN 41919
+
+				-- BOW CHINESE
+				WHEN(@ItemRefID = 41960) THEN 25673 -- EGYPT B BOW
+				WHEN(@ItemRefID = 41928) THEN 41880
+				WHEN(@ItemRefID = 41929) THEN 41881
+				WHEN(@ItemRefID = 41930) THEN 41882
+				WHEN(@ItemRefID = 41931) THEN 41883
+				WHEN(@ItemRefID = 41932) THEN 41884
+				WHEN(@ItemRefID = 41933) THEN 41885
+				WHEN(@ItemRefID = 41934) THEN 41886
+
+				-- DAGGER EUROPEAN
+				WHEN(@ItemRefID = 42113) THEN 25681 -- EGYT B EU DAGGER
+				WHEN(@ItemRefID = 42046) THEN 41966
+				WHEN(@ItemRefID = 42047) THEN 41967
+				WHEN(@ItemRefID = 42048) THEN 41968
+				WHEN(@ItemRefID = 42049) THEN 41970
+				WHEN(@ItemRefID = 42050) THEN 41972
+				WHEN(@ItemRefID = 42051) THEN 41973
+
+				-- SWORD EUROPEAN
+				WHEN(@ItemRefID = 42114) THEN 25678 -- EGYPT B EU SWORD
+				WHEN(@ItemRefID = 42052) THEN 41974
+				WHEN(@ItemRefID = 42053) THEN 41975
+				WHEN(@ItemRefID = 42054) THEN 41976
+				WHEN(@ItemRefID = 42055) THEN 41977
+				WHEN(@ItemRefID = 42056) THEN 41978
+				WHEN(@ItemRefID = 42057) THEN 41980
+				WHEN(@ItemRefID = 42058) THEN 41981
+
+				-- TSWORD EUROPEAN
+				WHEN(@ItemRefID = 42115) THEN 25679 -- EGYPT B EU TSWORD
+				WHEN(@ItemRefID = 42059) THEN 41982
+				WHEN(@ItemRefID = 42060) THEN 41983
+				WHEN(@ItemRefID = 42061) THEN 41984
+				WHEN(@ItemRefID = 42062) THEN 41985
+				WHEN(@ItemRefID = 42063) THEN 41986
+				WHEN(@ItemRefID = 42064) THEN 41988
+				WHEN(@ItemRefID = 42065) THEN 41989
+
+				-- AXE EUROPEAN
+				WHEN(@ItemRefID = 42116) THEN 25680 -- EGYPT B EU AXE
+				WHEN(@ItemRefID = 42066) THEN 41990
+				WHEN(@ItemRefID = 42067) THEN 41991
+				WHEN(@ItemRefID = 42068) THEN 41992
+				WHEN(@ItemRefID = 42069) THEN 41993
+				WHEN(@ItemRefID = 42070) THEN 41994
+				WHEN(@ItemRefID = 42071) THEN 41996
+				WHEN(@ItemRefID = 42072) THEN 41997
+
+				-- CROSSBOW EUROPEAN
+				WHEN(@ItemRefID = 42117) THEN 25682 -- EGYPT B EU CROSSBOW
+				WHEN(@ItemRefID = 42073) THEN 41998
+				WHEN(@ItemRefID = 42074) THEN 41999
+				WHEN(@ItemRefID = 42075) THEN 42000
+				WHEN(@ItemRefID = 42076) THEN 42001
+				WHEN(@ItemRefID = 42077) THEN 42002
+				WHEN(@ItemRefID = 42078) THEN 42003
+				WHEN(@ItemRefID = 42079) THEN 42005
+
+				-- DARKSTAFF EUROPEAN
+				WHEN(@ItemRefID = 42118) THEN 25684 -- EGYPT B EU DARKSTAFF
+				WHEN(@ItemRefID = 42080) THEN 42006
+				WHEN(@ItemRefID = 42081) THEN 42007
+				WHEN(@ItemRefID = 42082) THEN 42008
+				WHEN(@ItemRefID = 42083) THEN 42009
+				WHEN(@ItemRefID = 42084) THEN 42010
+				WHEN(@ItemRefID = 42085) THEN 42012
+				WHEN(@ItemRefID = 42086) THEN 42013
+
+				-- TSTAFF EUROPEAN
+				WHEN(@ItemRefID = 42119) THEN 25683 -- EGYPT B EU TSTAFF
+				WHEN(@ItemRefID = 42087) THEN 42014
+				WHEN(@ItemRefID = 42088) THEN 42015
+				WHEN(@ItemRefID = 42089) THEN 42016
+				WHEN(@ItemRefID = 42090) THEN 42017
+				WHEN(@ItemRefID = 42091) THEN 42018
+				WHEN(@ItemRefID = 42092) THEN 42020
+				WHEN(@ItemRefID = 42093) THEN 42021
+
+				-- HARP EUROPEAN
+				WHEN(@ItemRefID = 42120) THEN 25686 -- EGYPT B EU HARP
+				WHEN(@ItemRefID = 42094) THEN 42022
+				WHEN(@ItemRefID = 42095) THEN 42023
+				WHEN(@ItemRefID = 42096) THEN 42024
+				WHEN(@ItemRefID = 42097) THEN 42025
+				WHEN(@ItemRefID = 42098) THEN 42026
+
+				-- STAFF EUROPEAN
+				WHEN(@ItemRefID = 42121) THEN 25685 -- EGYPT B EU HARP
+				WHEN(@ItemRefID = 42099) THEN 42030
+				WHEN(@ItemRefID = 42100) THEN 42031
+				WHEN(@ItemRefID = 42101) THEN 42032
+				WHEN(@ItemRefID = 42102) THEN 42033
+				WHEN(@ItemRefID = 42103) THEN 42034
+				WHEN(@ItemRefID = 42104) THEN 42036
+				WHEN(@ItemRefID = 42105) THEN 42037
+
+				-- SHIELD EUROPEAN
+				WHEN(@ItemRefID = 42122) THEN 25687 -- EGYPT B EU HARP
+				WHEN(@ItemRefID = 42106) THEN 42038
+				WHEN(@ItemRefID = 42107) THEN 42039
+				WHEN(@ItemRefID = 42108) THEN 42040
+				WHEN(@ItemRefID = 42109) THEN 42041
+				WHEN(@ItemRefID = 42110) THEN 42042
+				WHEN(@ItemRefID = 42111) THEN 42044
+				WHEN(@ItemRefID = 42112) THEN 42045
+
+				--@ItemRefID = scroll ID THEN WEAPON ID
+
+				/* Other condition, return "0" */
+				ELSE 0
+			END
+
+			--- Force weapons to be +7? :)
+			IF(@Plus < 7)
+			BEGIN
+				set @Value = 0;
+			END
+
+			--- Check value
+			IF(@Value > 0)
+			BEGIN
+				-- Get TypeID's
+				SELECT DISTINCT TOP(1) @TypeID3 = a.TypeID3, @TypeID4 = a.TypeID4, @NewTypeID4 = b.TypeID4
+				FROM [SRO_VT_SHARD].[dbo].[_RefObjCommon] a WITH (NOLOCK)
+				JOIN [SRO_VT_SHARD].[dbo].[_RefObjCommon] b on b.ID = @Value
+				where a.CodeName128 = @CodeName128 and a.Service = 1
+
+				-- Check if Weapon / Shield
+				IF (@TypeID3 in (6,4) AND @TypeID4 = @NewTypeID4)
+				BEGIN
+					--- Give new design
+					UPDATE [SRO_VT_SHARD].[dbo].[_Items] set RefItemID = @Value where ID64 = @ID64;
+					print 'ok';
+					set @Success = 1;
+				END
+			END
+		END
+	END
+
+	--- Errors here
+	IF(@Success != 1)
+	BEGIN
+		--- Scroll name
+		DECLARE @ScrollCodeName128 varchar(max) = (SELECT CodeName128 from [SRO_VT_SHARD].[dbo].[_RefObjCommon] where ID = @ItemRefID and Service = 1);
+
+		print @ScrollCodeName128;
+		INSERT INTO [SRO_VT_LOG].[dbo].[Log] (CodeName128) VALUES(@ScrollCodeName128);
+
+		--- Give scroll back
+		exec [SRO_VT_SHARD].[dbo].[_ADD_ITEM_EXTERN] @Charname16, @ScrollCodeName128, 1, 0
+
+		--- Print
+		print 'Refunded scroll!';
+	END
+END
+-----------------------------------------------------------------------------

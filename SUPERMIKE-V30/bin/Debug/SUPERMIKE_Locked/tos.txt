@@ -1,0 +1,14 @@
+Terms of Service:
+1. You agree by using this tool that you will not attempt to edit it´s main content(.exe).
+2. By using this tool you accept out/in data recieved only from (http://goofie.se).
+3. You cannot block the inc/outgoing data, if you do the tool will crash.
+4. SUPERMIKE vSRO guard will never send damaging data to your server.
+5. SUPERMIKE vSRO guard will never leak any critical data sent to our server.(SERVER IP, PORTS, SERVER LOCATION)
+6. SUPERMIKE vSRO guard is not responsible for how you use this tool, it´s purpose is to defend servers.
+7. SUPERMIKE vSRO guard has no outgoing connection whatsoever to (SQL) or any other leaking context.
+8. SUPERMIKE vSRO guard only uses HTTP to GET and SEND traffic to (http://goofie.se).
+9. SUPERMIKE vSRO guard is owned by (missing.input) on skype and (Goofie) on Elitepvpers.de.
+10. This (tos.txt) may be changed at any-time, you agree the (tos.txt) everytime you use this guard.
+
+
+This context was last updated at [2015-12-08 14:36 PM]

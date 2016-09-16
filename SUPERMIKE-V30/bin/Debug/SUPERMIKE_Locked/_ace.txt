@@ -1,0 +1,62 @@
+USE [SUPERMIKE]
+GO
+/****** Object:  StoredProcedure [dbo].[_HWIDCHECK]    Script Date: 2016-01-11 02:54:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[_HWIDCHECK] 
+	@StrUserID VARCHAR(50),
+	@HWID VARCHAR(64)
+AS
+
+/* Check if @StrUserID AND @IP is not empty */
+IF (LEN(@StrUserID) > 0 AND LEN(@HWID) > 0)
+BEGIN
+	--- DECLARE
+	DECLARE @Value int = 0;
+
+		--- Check if username exists.
+		IF NOT EXISTS(SELECT StrUserID FROM [SRO_VT_ACCOUNT].[dbo].[TB_User] where StrUserID = @StrUserID)
+		BEGIN
+			SELECT 0;
+			RETURN;
+		END
+
+		--- First time connected? good!
+		IF NOT EXISTS(SELECT StrUserID FROM SUPERMIKE.dbo._HWID where StrUserID = @StrUserID)
+		BEGIN
+			INSERT INTO SUPERMIKE.dbo._HWID(StrUserID, HWID, last_seen) VALUES(@StrUserID, @HWID, GETDATE());
+			SET @Value = 1;
+		END
+
+		-- UPDATE THEIR HWID.
+		ELSE IF EXISTS(SELECT StrUserID from SUPERMIKE.dbo._HWID where StrUserID = @StrUserID and HWID is null) 
+		BEGIN
+			UPDATE SUPERMIKE.dbo._HWID set HWID = @HWID where StrUserID = @StrUserID;
+			SET @Value = 0;
+		END
+
+		--- HWID exists, UPDATE Last seen!
+		ELSE IF EXISTS(SELECT StrUserID FROM SUPERMIKE.dbo._HWID where StrUserID = @StrUserID and HWID like @HWID)
+		BEGIN
+			UPDATE SUPERMIKE.dbo._HWID set last_seen = GETDATE() where StrUserID = @StrUserID;
+			SET @Value = 1;
+		END
+
+		--- HWID OLD, NOT UPDATED!
+		ELSE IF EXISTS(SELECT StrUserID FROM SUPERMIKE.dbo._HWID where StrUserID = @StrUserID and last_seen < DATEADD(DAY, -3, GETDATE()))
+		BEGIN
+			UPDATE SUPERMIKE.dbo._HWID set HWID = @HWID, last_seen = GETDATE() where StrUserID = @StrUserID;
+			SET @Value = 1;
+		END
+
+		--- Trying to bypass, fuck off.
+		ELSE IF NOT EXISTS(SELECT StrUserID FROM SUPERMIKE.dbo._HWID where StrUserID = @StrUserID and HWID like @HWID)
+		BEGIN
+			SET @Value = 0;
+		END
+
+	--- Final countdown <3
+	SELECT @Value;
+END

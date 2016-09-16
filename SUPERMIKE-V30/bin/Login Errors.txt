@@ -1,0 +1,12 @@
+12 = UITT_TEENSERVER_ERRMGS_ADULT (SUPERMAN.dll broken, please restart your client!)
+11 = UIIO_SMERR_TEENOVER_ONLY_SERVER (Hacking attempt, you cannot login from this PC yet.)
+10 = UIIO_SMERR_ADULT_ONLY_SERVER (Cannot connect to the server because access to the current PC has exceeded its limit.)
+9 = UIIO_CLIENT_START_CONTENT_FAIL_BILLING_RELATED
+8 = UIO_MSG_ERROR_CONTENT_FAIL_INSUFFICIENT_IP (Cannot connect to the server because access to the current IP has exceeded its limit.)
+7 = UIO_MSG_ERROR_SEVER_CONNECT (C8 error)
+6 = UIO_MSG_ERROR_SEVER_CONNECT (C7 error)
+5 = UIO_MSG_ERROR_SERVER_BUSY_CONNECT_IMPOSSIBILE
+4 = UIO_MSG_ERROR_SEVER_CONNECT (C5 error)
+3 = UIO_MSG_ERROR_OVERLAP
+2 = Crashing client, idk
+1 = Crashing client, idk

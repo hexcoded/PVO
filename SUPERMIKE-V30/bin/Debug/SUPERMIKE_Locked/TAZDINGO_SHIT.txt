@@ -1,0 +1,104 @@
+USE [SUPERMIKE]
+GO
+
+/****** Object:  Table [dbo].[_NoticeToPlayer]    Script Date: 2016-04-04 21:14:02 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[_NoticeToPlayer](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[message] [varchar](255) NULL,
+	[CharName16] [varchar](64) NOT NULL,
+	[sent] [int] NULL CONSTRAINT [DF__NoticeToPlayer_sent]  DEFAULT ((0)),
+	[added] [datetime] NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+USE [SUPERMIKE]
+GO
+/****** Object:  StoredProcedure [dbo].[_GetPlayerNotice]    Script Date: 2016-04-04 21:15:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[_GetPlayerNotice]
+AS
+
+--- DECLARE
+DECLARE @ID INT, @MESSAGE VARCHAR(255) = NULL, @CHARNAME VARCHAR(64) = NULL;
+
+-- SELECT IF NEW STUFF
+IF EXISTS(SELECT [id] FROM [SUPERMIKE].[dbo].[_NoticeToPlayer] WHERE [sent] = 0)
+BEGIN
+	--- SELECT STUFF
+	SELECT DISTINCT TOP(1) @ID = a.[id], @MESSAGE = a.[message], @CHARNAME = a.[CharName16]
+	FROM [SUPERMIKE].[dbo].[_NoticeToPlayer] a WITH (NOLOCK)
+	WHERE [sent] = 0 ORDER BY a.[id] asc
+
+	--- UPDATE SQL
+	UPDATE [SUPERMIKE].[dbo].[_NoticeToPlayer] SET [sent] = 1 WHERE [id] = @ID;
+END
+
+--- GET MESSAGE
+SELECT @MESSAGE + '|' + @CHARNAME;
+
+
+----------------------------------------------------------------------------------------------
+Legends say that this line was never seen before ever again.
+
+
+
+
+USE [SUPERMIKE]
+GO
+/****** Object:  StoredProcedure [dbo].[_LogMembers]    Script Date: 2016-04-04 21:15:36 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[_LogMembers] 
+	@StrUserID VARCHAR(64),
+	@Charname16 VARCHAR(64),
+	@IP VARCHAR(64),
+	@playtime INT,
+	@Action INT
+AS
+
+/* Variable declarations */
+DECLARE @JID INT, @cur_status TINYINT
+
+/* Check if @StrUserID AND @IP is not empty */
+IF (LEN(LTRIM(RTRIM(@StrUserID))) > 0 AND LEN(LTRIM(RTRIM(@IP))) > 0)
+BEGIN
+	/* Get SINGLE record of JID */
+	SELECT DISTINCT @JID = JID from [SRO_VT_ACCOUNT].[dbo].[TB_User] WHERE LTRIM(RTRIM(StrUserID)) = LTRIM(RTRIM(@StrUserID))
+	/* Check if JID is not empty/zero */
+	IF (@JID <> 0 OR @JID IS NOT NULL)
+	BEGIN
+		/* Check existing log record */
+		IF EXISTS(SELECT StrUserID FROM [_Players] WITH (NOLOCK) WHERE LTRIM(RTRIM(StrUserID)) = LTRIM(RTRIM(@StrUserID)))
+		BEGIN
+			/* Update Online/Offline status */
+			SET @cur_status = CASE WHEN @Action = 1 THEN 1 ELSE 0 END
+			UPDATE [_Players] SET CharName16 = @CharName16, logged_ip = @IP, last_seen = GETDATE(), cur_status = @cur_status, playtime = (playtime + @playtime) WHERE LTRIM(RTRIM(StrUserID)) = LTRIM(RTRIM(@StrUserID))
+		END 
+		ELSE 
+		BEGIN 
+			/* New log record */
+			INSERT INTO [_Players] (StrUserID, JID, CharName16, logged_ip, last_seen, cur_status) VALUES (LTRIM(RTRIM(@StrUserID)), @JID, LTRIM(RTRIM(@Charname16)), @IP, GETDATE(), 1)
+		END
+	END
+END

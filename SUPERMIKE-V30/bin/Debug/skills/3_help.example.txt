@@ -1,0 +1,8 @@
+To block a skill you need to select SkillID from _RefSkill (SRO_VT_SHARD)
+
+* ress.example.txt > have all rescurrent skills
+* blackress.example.txt > have all blackress skills
+
+If you want to block a new skill make sure you add them inside the specific .txt file.
+
+FortressSkill.txt only work when players inside /regions/Fortress.txt

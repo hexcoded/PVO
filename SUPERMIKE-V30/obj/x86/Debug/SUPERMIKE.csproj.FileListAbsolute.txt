@@ -1,0 +1,10 @@
+E:\SUPERMAN\bin\Debug\SUPERMIKE.exe
+E:\SUPERMAN\bin\Debug\SUPERMIKE.pdb
+E:\SUPERMAN\obj\x86\Debug\SUPERMIKE.exe
+E:\SUPERMAN\obj\x86\Debug\SUPERMIKE.pdb
+E:\SUPERMAN\obj\x86\Debug\SUPERMIKE.csprojResolveAssemblyReference.cache
+D:\_Addicted2SRO_Client\UPX\SUPERMIKE\supermike v 30 srs\SUPERMAN\obj\x86\Debug\SUPERMIKE.exe
+D:\_Addicted2SRO_Client\UPX\SUPERMIKE\supermike v 30 srs\SUPERMAN\obj\x86\Debug\SUPERMIKE.pdb
+D:\_Addicted2SRO_Client\UPX\SUPERMIKE\supermike v 30 srs\SUPERMAN\bin\Debug\SUPERMIKE.exe
+D:\_Addicted2SRO_Client\UPX\SUPERMIKE\supermike v 30 srs\SUPERMAN\bin\Debug\SUPERMIKE.pdb
+D:\_Addicted2SRO_Client\UPX\SUPERMIKE\supermike v 30 srs\SUPERMAN\obj\x86\Debug\ResolveAssemblyReference.cache

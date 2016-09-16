@@ -1,0 +1,15 @@
+D:\SUPERMAN\bin\Debug\SUPERMAN.exe
+D:\SUPERMAN\bin\Debug\SUPERMAN.pdb
+D:\SUPERMAN\obj\x86\Debug\SUPERMAN.exe
+D:\SUPERMAN\obj\x86\Debug\SUPERMAN.pdb
+D:\SUPERMAN\obj\x86\Debug\SUPERMAN.csprojResolveAssemblyReference.cache
+E:\SUPERMAN\obj\x86\Debug\SUPERMAN.exe
+E:\SUPERMAN\obj\x86\Debug\SUPERMAN.pdb
+E:\SUPERMAN\bin\Debug\SUPERMAN.exe
+E:\SUPERMAN\bin\Debug\SUPERMAN.pdb
+F:\SUPERMAN\obj\x86\Debug\SUPERMAN.exe
+F:\SUPERMAN\obj\x86\Debug\SUPERMAN.pdb
+F:\SUPERMAN\bin\Debug\SUPERMAN.exe
+F:\SUPERMAN\bin\Debug\SUPERMAN.pdb
+F:\SUPERMAN\obj\x86\Debug\SUPERMAN.csprojResolveAssemblyReference.cache
+E:\SUPERMAN\obj\x86\Debug\SUPERMAN.csprojResolveAssemblyReference.cache
